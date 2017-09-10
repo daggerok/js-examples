@@ -19,6 +19,7 @@ script:
       01-init-vanilla-js \
       02-vanilla-js-remote-json \
       03-vanilla-js-jsonp \
+      04-vanilla-js-jquery \
     ; do
 
       export TARGET="$ROOT/$path"
