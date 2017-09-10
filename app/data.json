@@ -1,4 +1,4 @@
-jsonpDataHandler([
+[
   {
     "username": "boyly", "url": "https://vk.com"
   },
@@ -8,4 +8,4 @@ jsonpDataHandler([
   {
     "username": "daggerok", "url": "https://twitter.com"
   }
-]);
+]
