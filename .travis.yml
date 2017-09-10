@@ -18,6 +18,7 @@ script:
     for path in \
       01-init-vanilla-js \
       02-vanilla-js-remote-json \
+      03-vanilla-js-jsonp \
     ; do
 
       export TARGET="$ROOT/$path"
