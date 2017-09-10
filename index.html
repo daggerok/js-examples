@@ -1,17 +1,29 @@
 <!doctype html>
 <html lang="en">
-<head><base href="/js-examples/"/><base href="/js-examples/js-examples/"/>
+<head><base href="/js-examples/"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>JS Examples | jquery</title>
+  <title>Mustache | JQuery | Cycle | Bootswatch</title>
+  <link rel="stylesheet" href="./app/vendors/bootswatch/paper/bootstrap.min.css">
   <link rel="shortcut icon" type="image/x-icon" href="./app/favicon.ico">
   <link rel="stylesheet" href="./app/styles.css">
 </head>
 <body>
 <div id="app"></div>
-<script src="./register-sw.js"></script>
-<script src="./app/vendors/jquery/dist/jquery.min.js"></script>
-<script src="./app/app.js"></script>
+<script id="data-template" type="text/template">
+  {{#users}}
+    <div class="user">
+      <span>username: {{username}}</span>
+      <span>url: {{url}}/{{username}}</span>
+    </div>
+  {{/users}}
+</script>
+<script src="./register-sw.js" async></script>
+<script src="./app/vendors/mustache.js/mustache.min.js" defer></script>
+<script src="./app/vendors/jquery/dist/jquery.min.js" defer></script>
+<script src="./app/vendors/jquery.cycle/jquery.cycle.all.js" defer></script>
+<script src="./app/vendors/bootstrap/dist/js/bootstrap.min.js" defer></script>
+<script src="./app/app.js" defer></script>
 </body>
 </html>
