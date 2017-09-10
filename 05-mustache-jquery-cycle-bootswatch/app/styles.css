@@ -10,3 +10,7 @@ ul {
 .user {
   background-color: #fff;
 }
+
+#app {
+  margin: 0 auto;
+}

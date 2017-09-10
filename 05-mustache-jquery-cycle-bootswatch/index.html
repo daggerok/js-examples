@@ -14,6 +14,7 @@
 <script id="title-template" type="text/template">
   <h1>{{title}}</h1>
 </script>
+
 <script id="data-template" type="text/template">
   {{#users}}
   <div class="user">
@@ -23,14 +24,16 @@
   {{/users}}
 </script>
 
-<div id="title"></div>
+<div class="text-center">
+  <div id="title"></div>
+  <a href="#prev" id="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a href="#next" id="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
 
-<a href="#prev" id="prev">
-  <span class="glyphicon glyphicon-chevron-left"></span>
-</a>
-<a href="#next" id="next">
-  <span class="glyphicon glyphicon-chevron-right"></span>
-</a>
 <div id="app"></div>
 
 <script src="./register-sw.js" async></script>
