@@ -14,7 +14,7 @@
     "predeploy:pre": "bash ./gh-pages/pre.bash ./index.html",
     "predeploy:404-html": "ncp ./index.html ./404.html",
     "predeploy:nojekyll": "touch .nojekyll",
-    "deploy": "gh-pages --dist ./ --src '{app/**,.nojekyll,404.html,index.html,sw.js}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\"",
+    "deploy": "gh-pages --dist ./ --src '{app/**,.nojekyll,404.html,index.html,*sw.js}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\"",
     "postdeploy": "bash ./gh-pages/post.bash ./index.html"
   },
   "livereload": {
