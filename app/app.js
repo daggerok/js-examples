@@ -21,7 +21,7 @@
     var fragment = document.createDocumentFragment();
     var ul = document.createElement('ul');
 
-    var request = getRequest('./app/data.json');
+    var request = getRequest('https://daggerok.github.io/js-examples/app/data.json');
     request.addEventListener('readystatechange', function fetchData() {
 
       if (request.readyState !== 4) return;
