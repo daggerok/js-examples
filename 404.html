@@ -4,44 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Mustache | JQuery | Cycle | Bootswatch</title>
-  <link rel="stylesheet" href="./app/vendors/bootswatch/paper/bootstrap.min.css">
-  <link rel="shortcut icon" type="image/x-icon" href="./app/favicon.ico">
-  <link rel="stylesheet" href="./app/styles.css">
+  <title>Strategy | JS Examples</title>
+  <link rel="shortcut icon" type="image/x-icon" href="app/favicon.ico">
+  <link rel="stylesheet" href="app/styles.css">
 </head>
-<body class="container">
-
-<script id="title-template" type="text/template">
-  <h1>{{title}}</h1>
-</script>
-
-<script id="data-template" type="text/template">
-  {{#users}}
-  <div class="user">
-    <span>username: {{username}}</span>
-    <span>url: {{url}}/{{username}}</span>
-  </div>
-  {{/users}}
-</script>
-
-<div class="text-center">
-  <div id="title"></div>
-  <a href="#prev" id="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a href="#next" id="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
-</div>
-
+<body>
 <div id="app"></div>
-
-<script src="./register-sw.js" async></script>
-<script src="./app/vendors/mustache.js/mustache.min.js" defer></script>
-<script src="./app/vendors/jquery/dist/jquery.min.js" defer></script>
-<script src="./app/vendors/jquery.cycle/jquery.cycle.all.js" defer></script>
-<script src="./app/vendors/bootstrap/dist/js/bootstrap.min.js" defer></script>
-<script src="./app/app.js" defer></script>
-
+<script src="register-sw.js"></script>
+<script src="app/app.js"></script>
 </body>
 </html>

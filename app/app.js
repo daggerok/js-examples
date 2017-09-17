@@ -1,25 +1,23 @@
-$(function ready() {
+(function app() {
 
-  function compile(selector, data) {
-    var template = $(selector).html();
-    return Mustache.to_html(template, data);
-  }
+  const logger = (strategy, level, ...rest) =>
+    strategy(level, ...rest/* message, etc...*/);
 
-  var title = compile('#title-template', { title: 'Hi!'});
-  $('#title').html(title);
+  const logToConsoleStrategy = (level, ...rest) =>
+    console[level](...rest);
 
-  $.getJSON('./app/data.json').then(function onData(data) {
-    var html = compile('#data-template', { users: data });
-    $('#app').html(html);
-    $('#app').cycle({
-      // fx: 'fade',
-      pause: 1,
-      next: '#next',
-      prev: '#prev',
-      speed: 500,
-      timeout: 5000,
-      opacity: 0.5,
-    });
+  document.addEventListener('DOMContentLoaded', function bootstrap() {
+
+    // 1) console logger:
+    logger(
+      logToConsoleStrategy,
+      'warn',
+      'some info message...'
+    );
+
+    const app = document.querySelector('#app');
+    const fragment = document.createDocumentFragment();
+
   });
 
-});
+})();
