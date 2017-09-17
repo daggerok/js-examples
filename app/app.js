@@ -46,22 +46,26 @@
         default:
           engineer = new FullStack();
       }
-      engineer.cost = () => `${engineer.constructor.name} rate: \$${engineer.rate}/hour`;
+      engineer.cost = () => `${engineer.constructor.name}: \$${engineer.rate} / hour`;
       return engineer;
     }
   }
+
+  const addTo = (to, what) => {
+    const el = document.createElement('div');
+    el.textContent = what;
+    to.appendChild(el);
+  };
 
   document.addEventListener('DOMContentLoaded', function bootstrap() {
 
     const app = document.querySelector('#app');
     const fragment = document.createDocumentFragment();
 
-    ['qa', 'designer', 'frontend', 'backend', 'lazy-man'].forEach(kind => {
-      const div = document.createElement('div');
-      const engineer = EngineerFactory.create(kind);
-      div.textContent = engineer.cost();
-      fragment.appendChild(div);
-    });
+    ['qa', 'designer', 'frontend', 'backend', 'lazy-man']
+      .map(kind =>  EngineerFactory.create(kind))
+      .map(engineer => engineer.cost())
+      .forEach(cost => addTo(fragment, cost));
 
     app.appendChild(fragment);
 
