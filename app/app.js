@@ -1,71 +1,65 @@
 (function app() {
 
-  class FullStack {
-    constructor() {
-      this.rate = '15.00'
+  class SuperComplexLogic1 {
+    calculate(_skip) {
+      // super complex logic here... we don't want to deep dive into it
+      return Date.now() % 1000 < 500;
     }
   }
 
-  class Backend {
-    constructor() {
-      this.rate = '13.00'
+  class VeryComplexLogic2 {
+    calculate(_skip) { // same
+      return Date.now() % 9 > 5;
     }
   }
 
-  class Frontend {
-    constructor() {
-      this.rate = '12.00'
+  class AcademicLogic3 {
+    calculate(_skip) { // same
+      return Date.now() % 2 === 0;
     }
   }
 
-  class Designer {
-    constructor() {
-      this.rate = '10.00'
+  class Facade {
+    constructor(name) {
+      this.name = name;
+    }
+
+    /**
+     * API method (to reduce complexity)
+     * @param value
+     * @returns {string}
+     */
+    html(_whatever) {
+      const result1 = new SuperComplexLogic1().calculate(_whatever);
+      const result2 = new VeryComplexLogic2().calculate({_whatever});
+      const result3 = new AcademicLogic3().calculate([_whatever]);
+      return `
+      <div>
+        <p>${this.name} results:</p>
+        <ul>
+          <li>${result1}</li>
+          <li>${result2}</li>
+          <li>${result3}</li>
+        </ul>
+      </div>
+      `;
     }
   }
-
-  class QA {
-    constructor() {
-      this.rate = '11.00'
-    }
-  }
-
-  class EngineerFactory {
-    static create(kind) {
-      let engineer;
-      switch ((kind || '').toLowerCase()) {
-        case 'qa':
-          engineer = new QA(); break;
-        case 'designer':
-          engineer = new Designer(); break;
-        case 'frontend':
-          engineer = new Frontend(); break;
-        case 'backend':
-          engineer = new Backend(); break;
-        case 'full-stack':
-        default:
-          engineer = new FullStack();
-      }
-      engineer.cost = () => `${engineer.constructor.name}: \$${engineer.rate} / hour`;
-      return engineer;
-    }
-  }
-
-  const addTo = (to, what) => {
-    const el = document.createElement('div');
-    el.textContent = what;
-    to.appendChild(el);
-  };
 
   document.addEventListener('DOMContentLoaded', function bootstrap() {
 
     const app = document.querySelector('#app');
     const fragment = document.createDocumentFragment();
+    const addTo = innerHTML => {
+      const el = document.createElement('div');
+      el.innerHTML = innerHTML;
+      fragment.appendChild(el);
+    };
 
-    ['qa', 'designer', 'frontend', 'backend', 'lazy-man']
-      .map(kind =>  EngineerFactory.create(kind))
-      .map(engineer => engineer.cost())
-      .forEach(cost => addTo(fragment, cost));
+    ['Max', 'Bob', 'Nobody']
+      .map(name => new Facade(name))
+      .map(facade => facade.html())
+      .forEach(addTo);
 
     app.appendChild(fragment);
 
