@@ -1,10 +1,10 @@
 (function app() {
 
   const logger = (strategy, level, ...rest) =>
-    strategy(level, ...rest/* message, etc...*/);
+    strategy(level, ...rest/* messages, etc...*/);
 
-  const logToConsoleStrategy = (level, ...messages) =>
-    console[level](...messages);
+  const logToConsoleStrategy = (target, level, ...messages) =>
+    target[level](...messages);
 
   const styles = {
     log: 'primary',
@@ -13,8 +13,9 @@
     error: 'danger',
   };
 
-  const logToDomStrategy = (level, node, ...messages) =>
-    node.innerHTML = messages.map(message => `<div class="badge badge-${styles[level]}">
+  const logToDomStrategy = (target, level, ...messages) =>
+    target.innerHTML = messages.map(message => `
+      <div class="badge badge-${styles[level]}">
         ${message}
       </div>
     `).join(`<br/>`);
@@ -24,6 +25,7 @@
     // 1) console logger:
     logger(
       logToConsoleStrategy,
+      console,
       'warn',
       'console warn message 1',
       'and console warn message 2',
@@ -40,8 +42,8 @@
 
     logger(
       logToDomStrategy,
-      'warn',
       div,
+      'warn',
       'DOM warn message 1',
       'DOM warn message 2',
       'DOM warn message 3...',
