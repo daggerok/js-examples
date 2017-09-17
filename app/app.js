@@ -1,55 +1,68 @@
 (function app() {
 
-  const logger = (strategy, level, ...rest) =>
-    strategy(level, ...rest/* messages, etc...*/);
+  class FullStack {
+    constructor() {
+      this.rate = '15.00'
+    }
+  }
 
-  const logToConsoleStrategy = (target, level, ...messages) =>
-    target[level](...messages);
+  class Backend {
+    constructor() {
+      this.rate = '13.00'
+    }
+  }
 
-  const styles = {
-    log: 'primary',
-    info: 'info',
-    warn: 'warning',
-    error: 'danger',
-  };
+  class Frontend {
+    constructor() {
+      this.rate = '12.00'
+    }
+  }
 
-  const logToDomStrategy = (target, level, ...messages) =>
-    target.innerHTML = messages.map(message => `
-      <div class="badge badge-${styles[level]}">
-        ${message}
-      </div>
-    `).join(`<br/>`);
+  class Designer {
+    constructor() {
+      this.rate = '10.00'
+    }
+  }
+
+  class QA {
+    constructor() {
+      this.rate = '11.00'
+    }
+  }
+
+  class EngineerFactory {
+    static create(kind) {
+      let engineer;
+      switch ((kind || '').toLowerCase()) {
+        case 'qa':
+          engineer = new QA(); break;
+        case 'designer':
+          engineer = new Designer(); break;
+        case 'frontend':
+          engineer = new Frontend(); break;
+        case 'backend':
+          engineer = new Backend(); break;
+        case 'full-stack':
+        default:
+          engineer = new FullStack();
+      }
+      engineer.cost = () => `${engineer.constructor.name} rate: \$${engineer.rate}/hour`;
+      return engineer;
+    }
+  }
 
   document.addEventListener('DOMContentLoaded', function bootstrap() {
-
-    // 1) console logger:
-    logger(
-      logToConsoleStrategy,
-      console,
-      'warn',
-      'console warn message 1',
-      'and console warn message 2',
-    );
 
     const app = document.querySelector('#app');
     const fragment = document.createDocumentFragment();
 
-    const p = document.createElement('p');
-    p.textContent = 'also check browser console';
-    fragment.appendChild(p);
+    ['qa', 'designer', 'frontend', 'backend', 'lazy-man'].forEach(kind => {
+      const div = document.createElement('div');
+      const engineer = EngineerFactory.create(kind);
+      div.textContent = engineer.cost();
+      fragment.appendChild(div);
+    });
 
-    const div = document.createElement('div');
-
-    logger(
-      logToDomStrategy,
-      div,
-      'warn',
-      'DOM warn message 1',
-      'DOM warn message 2',
-      'DOM warn message 3...',
-    );
-
-    fragment.appendChild(div);
     app.appendChild(fragment);
 
   });
