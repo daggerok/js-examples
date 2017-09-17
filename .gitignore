@@ -1,6 +1,7 @@
 .idea/
 vendors/
 node_modules/
+bower_components/
 .DS_Store
 yarn.lock
 *-e

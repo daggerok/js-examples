@@ -1,0 +1,42 @@
+{
+  "name": "js-examples",
+  "homepage": "https://daggerok.github.io/js-examples",
+  "version": "0.0.1",
+  "description": "Plain JS examples",
+  "main": "index.html",
+  "author": "daggerok",
+  "license": "MIT",
+  "config": {
+    "bower_directory": "app/bower_components"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "start": "yarn -i; npm-run-all -p start:*",
+    "start:serve": "serve --cors --open --single --port 3000 --ignore 'node_modules,.idea' ./",
+    "start:livereload": "livereload",
+    "predeploy": "yarn -i && npm-run-all predeploy:*",
+    "predeploy:pre": "bash ./gh-pages/pre.bash ./index.html",
+    "predeploy:404-html": "ncp ./index.html ./404.html",
+    "predeploy:nojekyll": "touch .nojekyll",
+    "deploy": "gh-pages --dist ./ --src '{app/**,.nojekyll,404.html,index.html,*sw.js}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\"",
+    "postdeploy": "bash ./gh-pages/post.bash ./index.html"
+  },
+  "livereload": {
+    "exclusions": [
+      "node_modules",
+      "*.json",
+      "README.md",
+      "yarn.lock"
+    ]
+  },
+  "devDependencies": {
+    "@types/service_worker_api": "0.0.9",
+    "bower": "1.8.2",
+    "gh-pages": "1.0.0",
+    "livereload": "0.6.2",
+    "ncp": "2.0.0",
+    "npm-run-all": "4.1.1",
+    "rimraf": "2.6.1",
+    "serve": "6.0.6"
+  }
+}

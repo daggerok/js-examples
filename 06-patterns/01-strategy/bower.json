@@ -1,0 +1,26 @@
+{
+  "name": "js-examples",
+  "description": "Plain JS examples",
+  "main": "index.html",
+  "authors": [
+    "daggerok"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "js",
+    "bootstrap",
+    "bootswatch"
+  ],
+  "homepage": "https://github.com/daggerok/js-examples",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootswatch": "4"
+  }
+}
