@@ -23,6 +23,7 @@ script:
       05-mustache-jquery-cycle-bootswatch \
       06-patterns/01-strategy \
       06-patterns/02-factory \
+      06-patterns/03-facade \
     ; do
 
       export TARGET="$ROOT/$path"
