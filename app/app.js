@@ -18,6 +18,9 @@
     const app = document.querySelector('#app');
     const fragment = document.createDocumentFragment();
 
+    fragment.textContent = 'check browser console';
+    app.appendChild(fragment);
+
   });
 
 })();
