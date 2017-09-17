@@ -3,8 +3,8 @@
   const logger = (strategy, level, ...rest) =>
     strategy(level, ...rest/* message, etc...*/);
 
-  const logToConsoleStrategy = (level, ...rest) =>
-    console[level](...rest);
+  const logToConsoleStrategy = (level, ...messages) =>
+    console[level](...messages);
 
   const styles = {
     log: 'primary',
@@ -13,11 +13,11 @@
     error: 'danger',
   };
 
-  const logToDomStrategy = (level, message, node) =>
-    node.innerHTML = `<div class="badge badge-${styles[level]}">
+  const logToDomStrategy = (level, node, ...messages) =>
+    node.innerHTML = messages.map(message => `<div class="badge badge-${styles[level]}">
         ${message}
       </div>
-    `;
+    `).join(`<br/>`);
 
   document.addEventListener('DOMContentLoaded', function bootstrap() {
 
@@ -25,7 +25,8 @@
     logger(
       logToConsoleStrategy,
       'warn',
-      'some warn message...'
+      'console warn message 1',
+      'and console warn message 2',
     );
 
     const app = document.querySelector('#app');
@@ -40,8 +41,10 @@
     logger(
       logToDomStrategy,
       'warn',
-      'some warn message...',
-      div
+      div,
+      'DOM warn message 1',
+      'DOM warn message 2',
+      'DOM warn message 3...',
     );
 
     fragment.appendChild(div);
