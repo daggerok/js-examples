@@ -22,6 +22,7 @@ script:
       04-vanilla-js-jquery \
       05-mustache-jquery-cycle-bootswatch \
       06-patterns/01-strategy \
+      06-patterns/02-factory \
     ; do
 
       export TARGET="$ROOT/$path"
