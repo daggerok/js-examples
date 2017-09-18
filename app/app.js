@@ -1,63 +1,111 @@
 (function app() {
 
-  class EventObserver {
-    constructor() {
-      this.subscribers = [];
-    }
+  // bad
 
-    // add listener
-    subscribe(subscriber) {
-      this.subscribers = [
-        ...this.subscribers,
-        subscriber,
-      ];
-      return () => this.unSubscribe(subscriber);
-    }
-
-    // remove listener
-    unSubscribe(subscriber) {
-      this.subscribers = this.subscribers.filter(
-        s => s !== subscriber
-      );
-    }
-
-    // fire event
-    broadcast(data) {
-      this.subscribers.forEach(s => s(data));
+  class BadSendMail {
+    send(params) {
+      if (!params || !params.email) return;
+      console.log('bad message sent to', params.email);
     }
   }
 
+  class BadOrder {
+    constructor(params) {
+      this.params = params;
+    }
+
+    save() {
+      console.log('bad order created');
+      this.notify();
+    }
+
+    notify() {
+      const sendMail = new BadSendMail();
+      sendMail.send(this.params);
+    }
+  }
+
+  new BadOrder({
+    email: 'bad@gmail.com'
+  }).save();
+
+  // event-bus
+
+  const EventBus = {
+    channels: {},
+
+    subscribe(name, subscriber) {
+      if (!this.channels) this.channels = {};
+      if (!this.channels[name]) this.channels[name] = [];
+      this.channels[name] = [
+        ...this.channels[name],
+        subscriber,
+      ];
+    },
+
+    publish(name, data) {
+      if (!this.channels ||!this.channels[name] || !this.channels[name].length) return;
+      this.channels[name].forEach(
+        subscriber => subscriber(data)
+      );
+    },
+  };
+
+  // good
+
+  class GoodSendMail {
+    constructor() {
+      EventBus.subscribe('send-mail', this.send);
+    }
+    send(params) {
+      if (!params || !params.email) return;
+      console.log('good message sent to', params.email);
+    }
+  }
+
+  class GoodOrder {
+    constructor(params) {
+      this.params = params;
+    }
+
+    save() {
+      console.log('good order created');
+      this.notify();
+    }
+
+    notify() {
+      EventBus.publish('send-mail', this.params);
+    }
+  }
+
+  new GoodSendMail();
+  new GoodOrder({
+    email: 'good@gmail.com',
+  }).save();
+
   document.addEventListener('DOMContentLoaded', function bootstrap() {
 
-    // create listener
-    const observer = new EventObserver();
+    const app = document.querySelector('#app');
 
-    // send data
-    document.querySelector('input[type="text"]').addEventListener('keyup', e => {
-      e.preventDefault();
-      const { keyCode, target } = e;
-      if (!keyCode || keyCode !== 13) return;
-      if (!target || !target.value|| !target.value.trim().length) return;
-      observer.broadcast({
-        message: target.value.trim(),
-        time: new Date().toLocaleTimeString()
-      });
-      target.value = '';
-    }, false);
-
-    // receive data
-    const messages = document.querySelector('#messages');
-
-    const render = envelope => {
+    const render = content => {
       const el = document.createElement('div');
-      el.innerHTML = `<div>
-        ${envelope.time}: ${envelope.message}
-      </div>`;
-      messages.prepend(el);
+      el.innerHTML = content;
+      app.prepend(el);
     };
 
-    observer.subscribe(render);
+    // read more: PubSubJS
+    EventBus.subscribe('new-order', data => {
+      render(`<pre>${JSON.stringify(data, null, 1)}</pre>`);
+    });
 
-  });
+    document.querySelector('body').addEventListener('click', () => {
+      EventBus.publish('new-order', {
+        email: 'daggerok@gmail.com',
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+      });
+    }, false);
+
+  }, false);
 
 })();
