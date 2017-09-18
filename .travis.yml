@@ -16,6 +16,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      06-patterns/07-publish-subscriber \
       06-patterns/06-observer \
       06-patterns/05-constructor \
       06-patterns/04-decorator \
