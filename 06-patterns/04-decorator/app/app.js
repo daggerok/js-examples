@@ -6,7 +6,7 @@
     }
   }
 
-  const sugar = coffee => {
+  const withSugar = coffee => {
     const cost = coffee.cost();
     return {
       ...coffee,
@@ -14,7 +14,7 @@
     }
   };
 
-  const milk = coffee => {
+  const withMilk = coffee => {
     const cost = coffee.cost();
     return {
       ...coffee,
@@ -52,17 +52,17 @@
 
     const menu = {
       'small coffee': small(coffee),
-      'small coffee with sugar': small(sugar(coffee)),
-      'small coffee with milk': small(milk(coffee)),
-      'small coffee with sugar and milk': small(sugar(milk(coffee))),
+      'small coffee with sugar': withSugar(small(coffee)),
+      'small coffee with milk': withMilk(small(coffee)),
+      'small coffee with sugar and milk': withSugar(withMilk(small(coffee))),
       'coffee': coffee,
-      'coffee with sugar': sugar(coffee),
-      'coffee with milk': milk(coffee),
-      'coffee with sugar and milk': sugar(milk(coffee)),
+      'coffee with sugar': withSugar(coffee),
+      'coffee with milk': withMilk(coffee),
+      'coffee with sugar and milk': withSugar(withMilk(coffee)),
       'double coffee': double(coffee),
-      'double coffee with sugar': double(sugar(coffee)),
-      'double coffee with milk': double(milk(coffee)),
-      'double coffee with sugar and milk': double(sugar(milk(coffee))),
+      'double coffee with sugar': withSugar(double(coffee)),
+      'double coffee with milk': withMilk(double(coffee)),
+      'double coffee with sugar and milk': withSugar(withMilk(double(coffee))),
     };
 
     render(`<h2>Decorators</h2>`);

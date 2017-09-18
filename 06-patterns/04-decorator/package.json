@@ -1,7 +1,7 @@
 {
   "name": "js-examples",
   "homepage": "https://daggerok.github.io/js-examples",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plain JS examples",
   "main": "index.html",
   "author": "daggerok",
@@ -35,7 +35,7 @@
     "livereload": "0.6.2",
     "ncp": "2.0.0",
     "npm-run-all": "4.1.1",
-    "rimraf": "2.6.1",
-    "serve": "6.0.6"
+    "rimraf": "2.6.2",
+    "serve": "6.1.0"
   }
 }
