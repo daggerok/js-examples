@@ -1,17 +1,24 @@
-dist: precise
-
+env:
+  global:
+  - TERM=dumb
+#dist: precise
 language: node_js
 node_js:
-  - "node"
-  - 6
-  - 7
-  - 8
-
+- "node"
+- 6
+- 7
+- 8
+- 9
+- lts/*
 install: true
 before_script:
-  - npm i -g yarn
-  - yarn global add npm-check-updates
-
+- sudo apt update -y || true
+- sudo apt install --no-install-recommends -y curl
+- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+- echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+- sudo apt update -y || true
+- sudo apt install --no-install-recommends -y yarn
+- yarn global add npm-check-updates
 script:
   - export ROOT=$PWD
   - >
@@ -49,5 +56,5 @@ script:
 
 cache:
   directories:
-    - node_modules
-    - $HOME/.npm
+  - node_modules
+  - $HOME/.npm
