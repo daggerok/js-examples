@@ -13,47 +13,54 @@ node_js:
 install: true
 before_script:
 - sudo apt update -y || true
-- sudo apt install --no-install-recommends -y curl
+- sudo apt install --no-install-recommends -y curl python-pip
+- sudo pip install httpie
 - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 - sudo apt update -y || true
 - sudo apt install --no-install-recommends -y yarn
 - yarn global add npm-check-updates
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 5432 5672 27017 3000 8000 8080 80
 script:
-  - export ROOT=$PWD
-  - >
-    for path in \
-      flex \
-      06-patterns/07-publish-subscriber \
-      06-patterns/06-observer \
-      06-patterns/05-constructor \
-      06-patterns/04-decorator \
-      06-patterns/03-facade \
-      06-patterns/02-factory \
-      06-patterns/01-strategy \
-      05-mustache-jquery-cycle-bootswatch \
-      04-vanilla-js-jquery \
-      03-vanilla-js-jsonp \
-      02-vanilla-js-remote-json \
-      01-init-vanilla-js
-    do
+- export ROOT=$PWD
+- cd $ROOT/using-fetch
+- yarn -ii
+- yarn start &
+- wait_for 3000
+- http :3000
+- stop_any 3000
+- >
+  for path in \
+    using-fetch \
+    flex \
+    06-patterns/07-publish-subscriber \
+    06-patterns/06-observer \
+    06-patterns/05-constructor \
+    06-patterns/04-decorator \
+    06-patterns/03-facade \
+    06-patterns/02-factory \
+    06-patterns/01-strategy \
+    05-mustache-jquery-cycle-bootswatch \
+    04-vanilla-js-jquery \
+    03-vanilla-js-jsonp \
+    02-vanilla-js-remote-json \
+    01-init-vanilla-js
+  do
+    export TARGET="$ROOT/$path"
+    cd $TARGET
 
-      export TARGET="$ROOT/$path"
-      cd $TARGET
+    yarn -i
+    yarn predeploy
+    yarn postdeploy
+    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
 
-      yarn -i
-      yarn predeploy
-      yarn postdeploy
-      if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-
-      ncu
-      ncu -u
-      yarn -i
-      yarn upgrade
-      if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-
-    done;
-
+    ncu
+    ncu -u
+    yarn -i
+    yarn upgrade
+    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+  done;
 cache:
   directories:
   - node_modules

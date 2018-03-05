@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/service_worker_api": "0.0.9",
+    "@types/whatwg-fetch": "0.0.33",
     "gh-pages": "1.1.0",
     "livereload": "0.7.0",
     "ncp": "2.0.0",
