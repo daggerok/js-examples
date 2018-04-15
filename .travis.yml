@@ -35,6 +35,7 @@ script:
 
 - >
   for path in \
+    strategy-js \
     observer-js \
     using-fetch \
     flex \
