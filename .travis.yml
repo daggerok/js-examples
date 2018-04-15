@@ -1,7 +1,7 @@
 env:
   global:
   - TERM=dumb
-#dist: precise
+
 language: node_js
 node_js:
 - "node"
@@ -10,18 +10,20 @@ node_js:
 - 8
 - 9
 - lts/*
+
 install: true
 before_script:
-- sudo apt update -y || true
-- sudo apt install --no-install-recommends -y curl python-pip
-- sudo pip install httpie
+- sudo apt update -y >/dev/null 2>&1 || true
+- sudo apt install --no-install-recommends -y curl python-pip >/dev/null 2>&1
+- sudo pip install httpie >/dev/null 2>&1
 - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-- sudo apt update -y || true
-- sudo apt install --no-install-recommends -y yarn
+- sudo apt update -y >/dev/null 2>&1 || true
+- sudo apt install --no-install-recommends -y yarn >/dev/null 2>&1
 - yarn global add npm-check-updates
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5432 5672 27017 3000 8000 8080 80
+
 script:
 - export ROOT=$PWD
 - cd $ROOT/using-fetch
@@ -30,8 +32,10 @@ script:
 - wait_for 3000
 - http :3000
 - stop_any 3000
+
 - >
   for path in \
+    observer-js \
     using-fetch \
     flex \
     06-patterns/07-publish-subscriber \
@@ -52,7 +56,7 @@ script:
 
     yarn -i
     yarn predeploy
-    yarn postdeploy
+    if [ ".observer-js" != ".$path" ]; then yarn postdeploy; fi;
     if [ -f npm-debug.log ]; then cat npm-debug.log; fi
 
     ncu
@@ -61,6 +65,7 @@ script:
     yarn upgrade
     if [ -f npm-debug.log ]; then cat npm-debug.log; fi
   done;
+
 cache:
   directories:
   - node_modules
