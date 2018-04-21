@@ -9,3 +9,7 @@ yarn -i
 yarn start
 yarn deploy
 ----
+
+other repos:
+
+. link:https://github.com/daggerok/asciidoctor-to-html[Convert Asciidoc to HTML]
