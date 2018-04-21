@@ -12,5 +12,5 @@ yarn deploy
 
 other repos:
 
-. link:https://github.com/daggerok/asciidoctor-to-html[Convert Asciidoc to HTML]
-. link:https://github.com/daggerok/js-module-loader[Inject ES6 classes using Bottle.js]
+- link:https://github.com/daggerok/asciidoctor-to-html[Convert Asciidoc to HTML]
+- link:https://github.com/daggerok/js-module-loader[Inject ES6 classes using Bottle.js]
