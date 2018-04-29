@@ -1,0 +1,51 @@
+{
+  "name": "material-design-lite-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Maksim Kostromin <daggerok@gmail.com> (https://github.com/daggerok)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "10.0.0",
+    "@types/requirejs": "2.1.31",
+    "@types/webpack": "4.1.4",
+    "@types/whatwg-fetch": "0.0.33",
+    "base-href-webpack-plugin": "2.0.0",
+    "cross-env": "5.1.4",
+    "css-loader": "0.28.11",
+    "eslint": "4.19.1",
+    "file-loader": "1.1.11",
+    "gh-pages": "1.1.0",
+    "google-fonts-webpack-plugin": "0.4.4",
+    "html-webpack-plugin": "3.2.0",
+    "lite-server": "2.3.0",
+    "ncp": "2.0.0",
+    "npm-run-all": "4.1.2",
+    "rimraf": "2.6.2",
+    "style-loader": "0.21.0",
+    "url-loader": "1.0.1",
+    "webpack": "4.6.0",
+    "webpack-cli": "2.0.15"
+  },
+  "scripts": {
+    "clear": "rimraf -rf ./dist",
+    "dev": "cross-env NODE_ENV=development webpack",
+    "prebuild": "yarn clear",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "lite-server -c ./lite-server.config.js",
+    "predeploy": "yarn -i && cross-env npm-run-all predeploy:*",
+    "predeploy:rimraf": "rimraf dist",
+    "predeploy:eslint": "eslint app",
+    "predeploy:webpack": "cross-env NODE_ENV=gh-pages GHPAGES=true webpack",
+    "predeploy:gh-pages-404": "ncp ./dist/index.html ./dist/404.html",
+    "predeploy:nojekyll": "touch ./dist/.nojekyll",
+    "deploy": "gh-pages -e ./ -d ./dist -s '{*.*,.*,*,**}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\"",
+    "postdeploy": "echo '(;'"
+  },
+  "homepage": "https://daggerok.github.io/js-examples",
+  "dependencies": {
+    "material-design-icons": "3.0.1",
+    "material-design-lite": "1.3.0",
+    "toaster": "0.1.2",
+    "toastr": "2.1.4"
+  }
+}

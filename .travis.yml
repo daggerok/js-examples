@@ -35,6 +35,7 @@ script:
 
 - >
   for path in \
+    material-design-lite \
     strategy-js \
     observer-js \
     using-fetch \
