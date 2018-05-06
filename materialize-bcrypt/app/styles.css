@@ -1,0 +1,36 @@
+html,
+body,
+.centred-container
+{
+  padding: 0;
+  margin: 0;
+}
+
+.centred-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+  grid-template-rows: 2fr 3fr 1fr 5fr 1fr ;
+  grid-template-areas:
+      "aa aa aa aa aa aa aa aa aa"
+      "c1 c2 ff ff ff ff ff c8 c9"
+      "z1 zz zz zz zz zz zz zz z9"
+      "d1 d2 gg gg gg gg gg d8 d9"
+      "ee ee ee ee ee ee ee ee ee";
+}
+.centred-nav {
+  grid-area: aa;
+}
+.centred-password-to-hash-content {
+  grid-area: ff;
+}
+.centred-divider {
+  grid-area: zz;
+}
+.centred-hash-to-password-content {
+  grid-area: gg;
+}
+.centred-footer {
+  grid-area: ee;
+}

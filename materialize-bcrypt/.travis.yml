@@ -1,0 +1,27 @@
+env:
+  global:
+  - TERM=dumb
+
+language: node_js
+node_js: lts/*
+
+cache:
+  yarn: true
+  directories:
+  - node_modules
+
+install: true
+before_script:
+- sudo apt -y update >/dev/null 2>&1 || true
+- sudo apt install -y --no-install-recommends links curl python-pip >/dev/null 2>&1
+- sudo pip install httpie >/dev/null 2>&1
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 3000 3000
+
+script:
+- yarn -i
+- yarn start &
+- wait_for 3000
+- http :3000
+- links http://127.0.0.1:3000/ &
+- stop_any 3000 3000
