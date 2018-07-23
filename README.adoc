@@ -2,13 +2,10 @@
 
 This repo is contains simple vanilla javascript playground test projects
 
-.build, run, deploy
-[source,bash]
-----
-yarn -i
-yarn start
-yarn deploy
-----
+highlights:
+
+- link:./functional-js/[functional javascript]
+- link:./06-patterns/[some JS patterns]
 
 other repos:
 
