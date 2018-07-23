@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
-  ramda-curry-app \
+  ramda-functional-composition-app \
+  ramda-currying-app \
   high-order-functions \
   starter-app \
 ; do

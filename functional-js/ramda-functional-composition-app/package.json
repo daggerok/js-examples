@@ -1,6 +1,6 @@
 {
   "homepage": "https://daggerok.github.io/js-examples/",
-  "name": "high-order-functions-app",
+  "name": "ramda-functional-composition-app",
   "version": "0.0.0",
   "description": "Functional JS Starter App",
   "main": "index.js",
