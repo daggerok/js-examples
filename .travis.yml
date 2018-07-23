@@ -36,6 +36,7 @@ script:
 
 - >
   for path in \
+    functional-js/ramda-curry-app \
     functional-js/high-order-functions \
     functional-js/starter-app \
   ; do
