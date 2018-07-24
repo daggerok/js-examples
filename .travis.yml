@@ -26,13 +26,7 @@ before_script:
 - stop_any 5432 5672 27017 3000 8000 8080 80
 
 script:
-- export root=$PWD
-- cd $root/using-fetch
-- yarn -ii
-- yarn start &
-- wait_for 3000
-- http :3000
-- stop_any 3000
+- export root=$(pwd)
 
 - >
   for path in \
@@ -50,42 +44,48 @@ script:
     if [ -f npm-debug.log ]; then cat npm-debug.log; fi
   done;
 
-- >
-  for path in \
-    functional-js/starter-app \
-    materialize-bcrypt \
-    material-design-lite \
-    strategy-js \
-    observer-js \
-    using-fetch \
-    flex \
-    06-patterns/07-publish-subscriber \
-    06-patterns/06-observer \
-    06-patterns/05-constructor \
-    06-patterns/04-decorator \
-    06-patterns/03-facade \
-    06-patterns/02-factory \
-    06-patterns/01-strategy \
-    05-mustache-jquery-cycle-bootswatch \
-    04-vanilla-js-jquery \
-    03-vanilla-js-jsonp \
-    02-vanilla-js-remote-json \
-    01-init-vanilla-js
-  do
-    export TARGET="$root/$path"
-    cd $TARGET
-
-    yarn -i
-    yarn predeploy
-    if [ ".observer-js" != ".$path" ]; then yarn postdeploy; fi;
-    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-
-    ncu
-    ncu -u
-    yarn -i
-    yarn upgrade
-    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-  done;
+#- cd $root/using-fetch
+#- yarn -ii
+#- yarn start &
+#- wait_for 3000
+#- http :3000
+#- stop_any 3000
+#
+#- >
+#  for path in \
+#    materialize-bcrypt \
+#    material-design-lite \
+#    strategy-js \
+#    observer-js \
+#    using-fetch \
+#    flex \
+#    06-patterns/07-publish-subscriber \
+#    06-patterns/06-observer \
+#    06-patterns/05-constructor \
+#    06-patterns/04-decorator \
+#    06-patterns/03-facade \
+#    06-patterns/02-factory \
+#    06-patterns/01-strategy \
+#    05-mustache-jquery-cycle-bootswatch \
+#    04-vanilla-js-jquery \
+#    03-vanilla-js-jsonp \
+#    02-vanilla-js-remote-json \
+#    01-init-vanilla-js
+#  do
+#    export TARGET="$root/$path"
+#    cd $TARGET
+#
+#    yarn -i
+#    yarn predeploy
+#    if [ ".observer-js" != ".$path" ]; then yarn postdeploy; fi;
+#    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    ncu
+#    ncu -u
+#    yarn -i
+#    yarn upgrade
+#    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#  done;
 
 cache:
   directories:
