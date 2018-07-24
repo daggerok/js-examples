@@ -64,9 +64,8 @@ function mealsBody(mealsItems) {
   const rows = map(mealRowPartialFn, mealsItems);
   // count total calories for all meal items and map it to summary row element:
   const summary = summaryRow('bt b', mealsItems);
-  // concat rows
-  const mealsBodyRows = append(summary, rows);
-  return tbody(mealsBodyRows);
+  // summary + rows
+  return tbody(append(summary, rows));
 }
 
 // meals table
