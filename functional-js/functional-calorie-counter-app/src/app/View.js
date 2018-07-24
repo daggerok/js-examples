@@ -1,6 +1,6 @@
 import hh from 'hyperscript-helpers';
 import { h } from 'virtual-dom';
-import { hideFormCommand, showFormCommand, setCaloriesCommand, setMealCommand, saveMealCommand } from './Reducer';
+import { hideFormCommand, showFormCommand, setCaloriesCommand, setMealCommand, saveMealCommand } from './Commands';
 
 const { div, h1, hr, button, form, label, input, pre } = hh(h);
 

@@ -1,6 +1,6 @@
 import { h, diff, patch } from 'virtual-dom';
 import createElement from 'virtual-dom/create-element';
-import { storeLocalStorageStateCommand } from './Reducer';
+import { storeLocalStorageStateCommand } from './Commands';
 
 /** impure */
 
