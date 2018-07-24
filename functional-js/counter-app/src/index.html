@@ -12,11 +12,20 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body class="sans-serif bg-white pa3">
-<h1 class="mw5 center pa3">Counter</h1>
-<hr/>
-<div id="app"></div>
-<button id="decrease"> - </button>
-<button id="increase"> + </button>
+
+<h1 class="mw5 w-100 center">
+  <span>Counter: <span id="app"></span></span>
+</h1>
+
+<div class="center">
+  <div class="w-100 w-100 pa2">
+    <div class="mw5 center ">
+      <button id="decrease" class="dim bg-light-blue pv3 ph4"> -</button>
+      <button id="increase" class="dim bg-light-green pv3 ph4 "> +</button>
+    </div>
+  </div>
+</div>
+
 <script src="./main.js"></script>
 </body>
 </html>
