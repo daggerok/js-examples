@@ -1,6 +1,6 @@
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-import { map, partial, pipe, reduce } from 'ramda';
+import { map, partial, pipe, reduce, append } from 'ramda';
 
 const tags = hh(h);
 const { tr, th, td, tbody, thead, table } = tags;
@@ -64,7 +64,9 @@ function mealsBody(mealsItems) {
   const rows = map(mealRowPartialFn, mealsItems);
   // count total calories for all meal items and map it to summary row element:
   const summary = summaryRow('bt b', mealsItems);
-  return tbody([rows, summary]);
+  // concat rows
+  const mealsBodyRows = append(summary, rows);
+  return tbody(mealsBodyRows);
 }
 
 // meals table
