@@ -1,21 +1,21 @@
 import * as R from 'ramda';
-import { setStorage } from './Storage';
-import { types } from './Commands';
+import { serialize } from './LocalStorage';
+import { mapOf, types } from './Commands';
 
 /** main reducer */
 
-export function reduce(command, state) {
+export function reducer(command, state) {
   const { type } = command;
 
   switch (type) {
 
     case types.TOGGLE_FORM:
       const { showForm } = command;
-      return { ...state, showForm };
+      return mapOf({ ...state, showForm });
 
     case types.SET_MEAL:
       const { meal } = command;
-      return { ...state, meal };
+      return mapOf({ ...state, meal });
 
     case types.SET_CALORIES:
       // const { calories } = command;
@@ -24,13 +24,13 @@ export function reduce(command, state) {
         parseInt,
         R.defaultTo(0),
       )(command);
-      return { ...state, calories };
+      return mapOf({ ...state, calories });
 
     case types.SAVE_MEAL:
       const { meal: mealToSave, calories: caloriesToSave, meals, nextId } = state;
       const isInvalidState = !mealToSave || !mealToSave.trim().length;
       const nextIdToSave = isInvalidState ? nextId : nextId + 1;
-      return {
+      return mapOf({
         ...state,
         meals: [
           ...meals,
@@ -44,13 +44,13 @@ export function reduce(command, state) {
         calories: isInvalidState ? caloriesToSave : 0,
         showForm: isInvalidState,
         nextId: nextIdToSave,
-      };
+      });
 
     case types.STORE_STATE:
-      setStorage(state);
-      return { ...state };
+      serialize(state);
+      return mapOf({ ...state });
 
     default:
-      return { ...state };
+      return mapOf({ ...state });
   }
 }

@@ -1,4 +1,6 @@
-export const types = Object.freeze({
+export const mapOf = obj => Object.freeze({ ...obj });
+
+export const types = mapOf({
   TOGGLE_FORM: 'TOGGLE_FORM',
   SET_MEAL: 'SET_MEAL',
   SET_CALORIES: 'SET_CALORIES',
@@ -6,43 +8,30 @@ export const types = Object.freeze({
   STORE_STATE: 'STORE_STATE',
 });
 
-// STORE_STATE:
-export const storeLocalStorageStateCommand = Object.freeze({
-  type: types.STORE_STATE,
+export const showFormCommand = mapOf({
+  type: types.TOGGLE_FORM,
+  showForm: true,
 });
 
-// SAVE_MEAL:
-export const saveMealCommand = Object.freeze({
+export const hideFormCommand = mapOf({
+  type: types.TOGGLE_FORM,
+  showForm: false,
+});
+
+export const setMealCommand = meal => mapOf({
+  type: types.SET_MEAL,
+  meal,
+});
+
+export const setCaloriesCommand = calories => mapOf({
+  type: types.SET_CALORIES,
+  calories,
+});
+
+export const saveMealCommand = mapOf({
   type: types.SAVE_MEAL,
 });
 
-// SET_CALORIES_INPUT:
-export function setMealCommand(meal) {
-  return {
-    type: types.SET_MEAL,
-    meal,
-  };
-}
-// SET_CALORIES:
-export function setCaloriesCommand(calories) {
-  return {
-    type: types.SET_CALORIES,
-    calories,
-  };
-}
-
-// TOGGLE_FORM (hide)
-export function hideFormCommand(showForm = false) {
-  return {
-    type: types.TOGGLE_FORM,
-    showForm,
-  };
-}
-
-// TOGGLE_FORM (show)
-export function showFormCommand(showForm = true) {
-  return {
-    type: types.TOGGLE_FORM,
-    showForm,
-  };
-}
+export const storeLocalStorageStateCommand = mapOf({
+  type: types.STORE_STATE,
+});

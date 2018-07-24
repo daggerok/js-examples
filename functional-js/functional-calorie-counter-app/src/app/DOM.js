@@ -1,18 +1,23 @@
-import { h, diff, patch } from 'virtual-dom';
+import { diff, patch } from 'virtual-dom';
 import createElement from 'virtual-dom/create-element';
-import { storeLocalStorageStateCommand } from './Commands';
+
+import { reducer } from './Reducer';
+import { view } from './Components';
+import { registerLocalStorageOnUnloadDispatcher } from './LocalStorage';
 
 /** impure */
 
-export function bootstrap(initialState, view, reduce, node) {
+export function render(initialState, rootNode) {
   let state = initialState;
   let currentView = view(dispatch, state);
   let virtualNode = createElement(currentView);
 
-  node.appendChild(virtualNode);
+  rootNode.appendChild(virtualNode);
+
+  registerLocalStorageOnUnloadDispatcher(dispatch);
 
   function dispatch(type) {
-    const newState = reduce(type, state);
+    const newState = reducer(type, state);
     const newView = view(dispatch, newState);
     const patches = diff(currentView, newView);
 
@@ -20,6 +25,4 @@ export function bootstrap(initialState, view, reduce, node) {
     currentView = newView;
     state = newState;
   }
-
-  window.addEventListener('unload', () => dispatch(storeLocalStorageStateCommand), false);
 }

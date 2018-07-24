@@ -25,7 +25,7 @@ function buttonSetView(dispatch) {
     button({
       className: 'f3 pv2 ph3 bg-blue white bn dim fr ',
       type: 'button',
-      onclick: () => dispatch(hideFormCommand()),
+      onclick: () => dispatch(hideFormCommand),
     }, 'Cancel'),
   ]);
 }
@@ -44,7 +44,7 @@ function formView(dispatch, state) {
   }
   return button({
     className: 'f1 pv2 ph3 bg-blue white bn dim',
-    onclick: () => dispatch(showFormCommand()),
+    onclick: () => dispatch(showFormCommand),
   }, 'Add meal');
 }
 

@@ -1,9 +1,9 @@
-import { bootstrap } from './app/Bootstrap';
-import { getStorage } from './app/Storage';
-import { reduce } from './app/Reducer';
-import { view } from './app/View';
+import { render } from './app/DOM';
+import { deserialize } from './app/LocalStorage';
 
-const app = document.querySelector('#app');
-const state = getStorage();
+const initialState = deserialize();
 
-bootstrap(state, view, reduce, app);
+render(
+  initialState,
+  document.querySelector('#app')
+);
