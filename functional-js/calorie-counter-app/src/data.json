@@ -1,0 +1,22 @@
+[
+  {
+    "meal": "Breakfast",
+    "calories": 460
+  },
+  {
+    "meal": "Branch",
+    "calories": 280
+  },
+  {
+    "meal": "Lunch",
+    "calories": 650
+  },
+  {
+    "meal": "Snack",
+    "calories": 180
+  },
+  {
+    "meal": "Dinner",
+    "calories": 250
+  }
+]

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
+  calorie-counter-app \
   ramda-functional-composition \
   ramda-currying \
   high-order-functions \

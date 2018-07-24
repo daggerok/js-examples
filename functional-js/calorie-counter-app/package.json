@@ -1,6 +1,6 @@
 {
   "homepage": "https://daggerok.github.io/js-examples/",
-  "name": "ramda-functional-composition-app",
+  "name": "calorie-counter-app",
   "version": "0.0.0",
   "description": "Functional JS Starter App",
   "main": "index.js",
@@ -25,11 +25,15 @@
   "keywords": [
     "parcel",
     "ramda",
-    "css-reset-and-normalize-sass"
+    "tachyons",
+    "css-reset-and-normalize-sass",
+    "hyperscript",
+    "hyperscript-helpers"
   ],
   "author": "Maksim Kostromin <daggerok@gmail.com> (https://github.com/daggerok)",
   "license": "MIT",
   "devDependencies": {
+    "@types/hyperscript": "0.0.3",
     "@types/ramda": "0.25.35",
     "babel-preset-env": "1.7.0",
     "babel-preset-stage-0": "6.24.1",
@@ -41,6 +45,9 @@
   },
   "dependencies": {
     "css-reset-and-normalize-sass": "0.1.2",
-    "ramda": "0.25.0"
+    "hyperscript": "2.0.2",
+    "hyperscript-helpers": "3.0.3",
+    "ramda": "0.25.0",
+    "tachyons": "4.11.1"
   }
 }

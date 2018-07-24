@@ -22,7 +22,10 @@
     "predeploy:nojekyll": "touch ./dist/.nojekyll",
     "deploy": "gh-pages -e ./ -d ./dist -s '{*.*,.*,*,**}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\""
   },
-  "keywords": [],
+  "keywords": [
+    "parcel",
+    "css-reset-and-normalize-sass"
+  ],
   "author": "Maksim Kostromin <daggerok@gmail.com> (https://github.com/daggerok)",
   "license": "MIT",
   "devDependencies": {
