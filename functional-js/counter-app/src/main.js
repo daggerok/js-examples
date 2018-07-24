@@ -5,36 +5,40 @@ import { compose, pipe } from 'ramda';
 const tags = hh(h);
 const { p } = tags;
 
-/** storage: managing application state */
+/** state management */
 
 const _key = 'daggerok.counter-app._state';
-const getState = () => JSON.parse(localStorage.getItem(_key) || '{ "counter": 0 }');
-const setState = (state) => localStorage.setItem(_key, JSON.stringify(state));
+
+const getStorageState = () =>
+  JSON.parse(localStorage.getItem(_key) || '{ "counter": 0 }');
+
+const setStorageState = (state) =>
+  localStorage.setItem(_key, JSON.stringify(state));
 
 let _inMemoryState = { counter: 0 };
 const getApplicationState = () => ({ ..._inMemoryState });
 const setApplicationState = (state) => _inMemoryState = { ...state };
 
-/** internal (private) implementation API */
+/** DRY */
+
+const extractCounter = ({ counter }) => counter;
 
 function incrementCounter(state) {
-  const { counter = 0 } = state;
-  setApplicationState({ counter: counter + 1 });
+  const counter = extractCounter(state) + 1;
+  setApplicationState({ counter });
   return getApplicationState();
 }
 
 function decrementCounter(state) {
-  const { counter = 0 } = state;
-  setApplicationState({ counter: counter - 1 });
+  const counter = extractCounter(state) - 1;
+  setApplicationState({ counter });
   return getApplicationState();
 }
 
 const render = ({ innerHTML }) =>
   document.querySelector('#app').innerHTML = innerHTML;
 
-const extractCounter = ({ counter }) => counter;
-
-/** public API */
+/** high-order functions */
 
 const renderCounter = compose(
   render,
@@ -55,13 +59,8 @@ const decrementPipeline = pipe(
 /** main */
 
 document.addEventListener('DOMContentLoaded', () => {
-  setApplicationState({ ...getState() });
+  setApplicationState({ ...getStorageState() });
   renderCounter(getApplicationState());
-/*  // backup each 5 seconds:
-  setInterval(function backup() {
-    setState({ ...getApplicationState() });
-  }, 5000);
-*/
 }, false);
 
 document
@@ -73,5 +72,5 @@ document
   .addEventListener('click', () => decrementPipeline(getApplicationState()), false);
 
 window.addEventListener('unload', () => {
-  setState({ ...getApplicationState() });
+  setStorageState({ ...getApplicationState() });
 }, false);
