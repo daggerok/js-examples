@@ -1,80 +1,58 @@
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-import { map, partial, pipe, reduce, append } from 'ramda';
+import { pipe, compose } from 'ramda';
 
 const tags = hh(h);
-const { tr, th, td, tbody, thead, table } = tags;
+const { p } = tags;
 
-const _data = require('./data.json');
+/** mutate computed */
+let _state = {
+  counter: 0,
+};
 
-/** computed */
+const _mutateState = state => _state = { ...state };
 
-function fetchData() {
-  return _data;
+const getState = () => ({ ..._state });
+
+function incrementCounter(state) {
+  const { counter = 0 } = state;
+  _mutateState({ counter: counter + 1 });
+  return getState();
 }
 
-function totalCalories(mealsItems) {
-  /*
-  return data.map(({ calories }) => calories)
-    .reduce((acc, calories) => acc + calories);
-  */
-  const computeTotal = pipe(
-    // 1) extract calories field:
-    map(({ calories }) => calories),
-    // 2) sum calories:
-    reduce((acc, calories) => acc + calories, 0),
-  );
-  return computeTotal(mealsItems);
+function decrementCounter(state) {
+  const { counter = 0 } = state;
+  _mutateState({ counter: counter - 1 });
+  return getState();
 }
 
-/** components */
+const render = ({ innerHTML }) =>
+  document.querySelector('#app').innerHTML = innerHTML;
 
-// cell
-function cell(tag, className, value) {
-  return tag({ className }, value);
-}
+const extractCounter = ({ counter }) => counter;
 
-// heading row and meal header
-const mealHeader = thead(tr([
-  cell(th, 'b pa3 tl', 'Meal'),
-  cell(th, 'b pa3 tr', 'Calories'),
-]));
+const renderCounter = compose(
+  render,
+  p,
+  extractCounter,
+);
 
-// meal row
-function mealRow(className, mealsItem) {
-  return tr({ className }, [
-    cell(td, 'pa2', mealsItem.meal),
-    cell(td, 'pa2 tr', mealsItem.calories),
-  ]);
-}
+const incrementPipeline = pipe(
+  incrementCounter,
+  renderCounter,
+);
 
-// summary row
-function summaryRow(className, mealsItems) {
-  return tr({ className }, [
-    cell(td, 'pa2 tr', 'Total:'),
-    cell(td, 'pa2 tl', totalCalories(mealsItems)),
-  ]);
-}
+const decrementPipeline = pipe(
+  decrementCounter,
+  renderCounter,
+);
 
-// meal body
-function mealsBody(mealsItems) {
-  // create partial fn to pass array of classes as 1st arg:
-  const mealRowPartialFn = partial(mealRow, ['stripe-dark']);
-  // map each meals item el to previously created partial fn:
-  const rows = map(mealRowPartialFn, mealsItems);
-  // count total calories for all meal items and map it to summary row element:
-  const summary = summaryRow('bt b', mealsItems);
-  // summary + rows
-  return tbody(append(summary, rows));
-}
+document.addEventListener('DOMContentLoaded', () => renderCounter(getState()), false);
 
-// meals table
-function mealsTable(className, values) {
-  return table({ className }, values)
-}
+document
+  .querySelector('#increase')
+  .addEventListener('click', () => incrementPipeline(getState()), false);
 
-// main rendering:
-document.body.appendChild(mealsTable('mw5 center w-100 collapse', [
-  mealHeader,
-  mealsBody(fetchData()),
-]));
+document
+  .querySelector('#decrease')
+  .addEventListener('click', () => decrementPipeline(getState()), false);
