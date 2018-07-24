@@ -30,6 +30,7 @@ script:
 
 - >
   for path in \
+    functional-js/counter-app \
     functional-js/calorie-counter-app \
     functional-js/ramda-functional-composition \
     functional-js/ramda-currying \
