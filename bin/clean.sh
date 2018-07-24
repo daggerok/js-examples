@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
+  virtual-dom-counter-app \
   pure-counter-app \
   counter-app \
   calorie-counter-app \
