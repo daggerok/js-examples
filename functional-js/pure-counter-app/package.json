@@ -1,0 +1,53 @@
+{
+  "homepage": "https://daggerok.github.io/js-examples/",
+  "name": "pure-counter-app",
+  "version": "0.0.0",
+  "description": "Functional JS Starter App",
+  "main": "index.js",
+  "scripts": {
+    "predev": "npm run clean",
+    "dev": "npm-run-all -p dev:*",
+    "dev:watch": "parcel watch --no-cache src/index.html",
+    "dev:serve": "parcel serve --no-cache src/index.html",
+    "start": "parcel src/index.html",
+    "clean": "rimraf -rf .cache dist",
+    "prebuild": "npm run clean",
+    "build": "parcel build src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm i && npm-run-all predeploy:*",
+    "predeploy:clean": "npm run clean",
+    "predeploy:build": "parcel build --public-url /js-examples/ src/index.html",
+    "predeploy:base-href": "bash ./bin/gh-pages-base-href.bash dist/index.html",
+    "predeploy:gh-pages-404": "ncp ./dist/index.html ./dist/404.html",
+    "predeploy:nojekyll": "touch ./dist/.nojekyll",
+    "deploy": "gh-pages -e ./ -d ./dist -s '{*.*,.*,*,**}' --branch gh-pages --dotfiles=true -m \"Github Pages $(date +%Y-%m-%d) deployment\""
+  },
+  "keywords": [
+    "parcel",
+    "ramda",
+    "tachyons",
+    "css-reset-and-normalize-sass",
+    "hyperscript",
+    "hyperscript-helpers"
+  ],
+  "author": "Maksim Kostromin <daggerok@gmail.com> (https://github.com/daggerok)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/hyperscript": "0.0.3",
+    "@types/ramda": "0.25.35",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-stage-0": "6.24.1",
+    "gh-pages": "1.2.0",
+    "ncp": "2.0.0",
+    "npm-run-all": "4.1.3",
+    "parcel-bundler": "1.9.7",
+    "rimraf": "2.6.2"
+  },
+  "dependencies": {
+    "css-reset-and-normalize-sass": "0.1.2",
+    "hyperscript": "2.0.2",
+    "hyperscript-helpers": "3.0.3",
+    "ramda": "0.25.0",
+    "tachyons": "4.11.1"
+  }
+}

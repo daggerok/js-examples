@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
+  pure-counter-app \
   counter-app \
   calorie-counter-app \
   ramda-functional-composition \
