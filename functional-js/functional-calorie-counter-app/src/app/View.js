@@ -35,10 +35,7 @@ function formView(dispatch, state) {
   if (showForm) {
     return form({
       className: 'w-100 mv2',
-      onsubmit: e => {
-        e.preventDefault();
-        dispatch(saveMealCommand);
-      },
+      onsubmit: () => dispatch(saveMealCommand),
     }, [
       fieldSetView('Meal', meal, e => dispatch(setMealCommand(e.target.value))),
       fieldSetView('Calories', calories || '', e => dispatch(setCaloriesCommand(e.target.value))),
