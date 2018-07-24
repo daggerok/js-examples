@@ -50,7 +50,7 @@ function formView(dispatch, state) {
 
 export function view(dispatch, state) {
   return div({ className: 'sans-serif bg-white pa3 mv1' }, [
-    h1({ className: 'mw5 w-100 center' }, 'Calorie Counter'),
+    h1({ className: 'mw5 w-100 center' }, 'Calories Counter'),
     hr(),
     formView(dispatch, state),
     pre(JSON.stringify(state, null, 2)),
