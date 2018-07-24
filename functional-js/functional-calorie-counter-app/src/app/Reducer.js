@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { setStorage } from './Storage';
 
 /** commands */
 
@@ -7,6 +8,12 @@ export const types = Object.freeze({
   SET_MEAL: 'SET_MEAL',
   SET_CALORIES: 'SET_CALORIES',
   SAVE_MEAL: 'SAVE_MEAL',
+  STORE_STATE: 'STORE_STATE',
+});
+
+// STORE_STATE:
+export const storeLocalStorageStateCommand = Object.freeze({
+  type: types.STORE_STATE,
 });
 
 // SAVE_MEAL:
@@ -52,6 +59,10 @@ export function reduce(command, state) {
 
   switch (type) {
 
+    case types.STORE_STATE:
+      setStorage(state);
+      return { ...state };
+
     case types.SHOW_FORM:
       const { showForm } = command;
       return { ...state, showForm };
@@ -89,6 +100,6 @@ export function reduce(command, state) {
       };
 
     default:
-      return state;
+      return { ...state };
   }
 }

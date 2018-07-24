@@ -1,5 +1,6 @@
 import { h, diff, patch } from 'virtual-dom';
 import createElement from 'virtual-dom/create-element';
+import { storeLocalStorageStateCommand } from './Reducer';
 
 /** impure */
 
@@ -20,5 +21,5 @@ export function bootstrap(initialState, view, reduce, node) {
     state = newState;
   }
 
-  window.addEventListener('unload', () => dispatch('BYE'), false);
+  window.addEventListener('unload', () => dispatch(storeLocalStorageStateCommand), false);
 }
