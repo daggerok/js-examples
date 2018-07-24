@@ -1,35 +1,40 @@
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-import { pipe, compose } from 'ramda';
+import { compose, pipe } from 'ramda';
 
 const tags = hh(h);
 const { p } = tags;
 
-/** mutate computed */
-let _state = {
-  counter: 0,
-};
+/** storage: managing application state */
 
-const _mutateState = state => _state = { ...state };
+const _key = 'daggerok.counter-app._state';
+const getState = () => JSON.parse(localStorage.getItem(_key) || '{ "counter": 0 }');
+const setState = (state) => localStorage.setItem(_key, JSON.stringify(state));
 
-const getState = () => ({ ..._state });
+let _inMemoryState = { counter: 0 };
+const getApplicationState = () => ({ ..._inMemoryState });
+const setApplicationState = (state) => _inMemoryState = { ...state };
+
+/** internal (private) implementation API */
 
 function incrementCounter(state) {
   const { counter = 0 } = state;
-  _mutateState({ counter: counter + 1 });
-  return getState();
+  setApplicationState({ counter: counter + 1 });
+  return getApplicationState();
 }
 
 function decrementCounter(state) {
   const { counter = 0 } = state;
-  _mutateState({ counter: counter - 1 });
-  return getState();
+  setApplicationState({ counter: counter - 1 });
+  return getApplicationState();
 }
 
 const render = ({ innerHTML }) =>
   document.querySelector('#app').innerHTML = innerHTML;
 
 const extractCounter = ({ counter }) => counter;
+
+/** public API */
 
 const renderCounter = compose(
   render,
@@ -47,12 +52,26 @@ const decrementPipeline = pipe(
   renderCounter,
 );
 
-document.addEventListener('DOMContentLoaded', () => renderCounter(getState()), false);
+/** main */
+
+document.addEventListener('DOMContentLoaded', () => {
+  setApplicationState({ ...getState() });
+  renderCounter(getApplicationState());
+/*  // backup each 5 seconds:
+  setInterval(function backup() {
+    setState({ ...getApplicationState() });
+  }, 5000);
+*/
+}, false);
 
 document
   .querySelector('#increase')
-  .addEventListener('click', () => incrementPipeline(getState()), false);
+  .addEventListener('click', () => incrementPipeline(getApplicationState()), false);
 
 document
   .querySelector('#decrease')
-  .addEventListener('click', () => decrementPipeline(getState()), false);
+  .addEventListener('click', () => decrementPipeline(getApplicationState()), false);
+
+window.addEventListener('unload', () => {
+  setState({ ...getApplicationState() });
+}, false);
