@@ -1,4 +1,4 @@
-= calorie-counter-app
+= calories-counter-app
 
 links:
 
