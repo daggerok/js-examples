@@ -30,6 +30,7 @@ script:
 
 - >
   for path in \
+    functional-js/functional-starter-app \
     functional-js/functional-temperature-converter-app \
     functional-js/functional-calories-counter-app \
     functional-js/virtual-dom-counter-app \

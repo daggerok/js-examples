@@ -1,4 +1,4 @@
-= calories-counter-app image:https://travis-ci.org/daggerok/js-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/js-examples"]
+= functional-temperature-converter-app image:https://travis-ci.org/daggerok/js-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/js-examples"]
 
 links:
 

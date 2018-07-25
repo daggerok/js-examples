@@ -1,0 +1,1 @@
+= functional-starter-app image:https://travis-ci.org/daggerok/js-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/js-examples"]
