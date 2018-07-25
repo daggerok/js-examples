@@ -5,6 +5,8 @@ export const types = mapOf({
   SET_MEAL: 'SET_MEAL',
   SET_CALORIES: 'SET_CALORIES',
   SAVE_MEAL: 'SAVE_MEAL',
+  EDIT_MEAL: 'EDIT_MEAL',
+  DELETE_MEAL: 'DELETE_MEAL',
   STORE_STATE: 'STORE_STATE',
 });
 
@@ -30,6 +32,16 @@ export const setCaloriesCommand = calories => mapOf({
 
 export const saveMealCommand = mapOf({
   type: types.SAVE_MEAL,
+});
+
+export const editMealCommand = id => mapOf({
+  type: types.EDIT_MEAL,
+  id,
+});
+
+export const deleteMealCommand = id => mapOf({
+  type: types.DELETE_MEAL,
+  id,
 });
 
 export const storeLocalStorageStateCommand = mapOf({

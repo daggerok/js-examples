@@ -1,8 +1,17 @@
 import hh from 'hyperscript-helpers';
 import { h } from 'virtual-dom';
-import { hideFormCommand, showFormCommand, setCaloriesCommand, setMealCommand, saveMealCommand } from './Commands';
+import { pipe, map, sum, partial } from 'ramda';
+import {
+  hideFormCommand,
+  showFormCommand,
+  setCaloriesCommand,
+  setMealCommand,
+  saveMealCommand,
+  deleteMealCommand,
+  editMealCommand
+} from './Commands';
 
-const { div, h1, hr, button, form, label, input, pre } = hh(h);
+const { div, h1, button, form, label, input, pre, thead, tr, th, table, tbody, td, i } = hh(h);
 
 function fieldSetView(labelText, inputValue, oninput) {
   return div([
@@ -17,13 +26,13 @@ function fieldSetView(labelText, inputValue, oninput) {
 }
 
 function buttonSetView(dispatch) {
-  return div({ className: 'center w-100 mw5 cf' }, [
+  return div([
     button({
-      className: 'f3 pv2 ph3 bg-blue white bn dim fl mr2',
+      className: 'f3 pv2 ph3 bg-blue white bn dim mr2',
       type: 'submit',
     }, 'Save'),
     button({
-      className: 'f3 pv2 ph3 bg-blue white bn dim fr ',
+      className: 'f3 pv2 ph3 bn bg-light-gray dim',
       type: 'button',
       onclick: () => dispatch(hideFormCommand),
     }, 'Cancel'),
@@ -31,9 +40,11 @@ function buttonSetView(dispatch) {
 }
 
 function formView(dispatch, state) {
-  const { meal, calories, showForm } = state;
+  const { meal, calories, showForm, id } = state;
   if (showForm) {
-    return form({ onsubmit: e => {
+    return form({
+      className: 'w-100 mv2',
+      onsubmit: e => {
         e.preventDefault();
         dispatch(saveMealCommand);
     }}, [
@@ -43,17 +54,78 @@ function formView(dispatch, state) {
     ]);
   }
   return button({
-    className: 'f1 pv2 ph3 bg-blue white bn dim',
+    className: 'f3 pv2 ph3 bg-blue white bn',
     onclick: () => dispatch(showFormCommand),
   }, 'Add meal');
 }
 
+function cell(tag, className, value) {
+  return tag({ className }, value);
+}
+
+const tableHeader = thead([
+  tr([
+    cell(th, 'pa2 tl', 'Meal'),
+    cell(th, 'pa2 tr', 'Calories'),
+    cell(th, '', ''),
+  ]),
+]);
+
+function mealRow(dispatch, className, { id, meal, calories}) {
+  return tr({ className, id }, [
+    cell(td, 'pa2', meal),
+    cell(td, 'pa2 tr', calories),
+    cell(td, 'pa2', [
+      i({
+        className: 'ph1 fa fa-trash-o pointer tr',
+        onclick: () => dispatch(deleteMealCommand(id)),
+      }),
+      i({
+        className: 'ph1 fa fa-pencil-square-o pointer tr',
+        onclick: () => dispatch(editMealCommand(id)),
+      }),
+    ]),
+  ]);
+}
+
+function totalRow(meals) {
+  const total = pipe(
+    map(({ calories }) => calories),
+    sum,
+  )(meals);
+  return tr({ className: 'bt b' }, [
+    cell(td, 'pa2 tr', 'Total:'),
+    cell(td, 'pa2 tr', total),
+    cell(td, '', ''),
+  ]);
+}
+
+function mealsBody(dispatch, className, meals) {
+  const rows = map(
+    partial(mealRow, [dispatch, 'stripe-dark']),
+    meals
+  );
+
+  const rowsWithTotal = [...rows, totalRow(meals)];
+
+  return tbody({ className }, rowsWithTotal);
+}
+
+function tableView(dispatch, meals) {
+  if (meals.length === 0) {
+    return div({ className: 'mv2 i black-50' }, 'No meals to display...');
+  }
+  return table({ className: 'mv2 w-100 collapse' }, [
+    tableHeader,
+    mealsBody(dispatch, '', meals),
+  ]);
+}
+
 export function view(dispatch, state) {
-  return div({ className: 'sans-serif bg-white pa3 mv1' }, [
-    h1({ className: 'mw5 w-100 center' }, 'Calories Counter'),
-    div({ className: 'w-100 center mw5' },
-      formView(dispatch, state)
-    ),
+  return div({ className: 'mw6 center' }, [
+    h1({ className: 'f2 pv2 bb' }, 'Calories Counter'),
+    formView(dispatch, state),
+    tableView(dispatch, state.meals),
     pre(JSON.stringify(state, null, 2)),
   ]);
 }
