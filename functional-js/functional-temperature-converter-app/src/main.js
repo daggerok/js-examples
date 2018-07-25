@@ -1,4 +1,4 @@
-import { render } from './app/DOM';
+import { render } from './app/VirtualDOM';
 import { deserialize } from './app/LocalStorage';
 
 const initialState = deserialize();

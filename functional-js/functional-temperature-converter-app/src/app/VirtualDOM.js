@@ -2,7 +2,7 @@ import { diff, patch } from 'virtual-dom';
 import createElement from 'virtual-dom/create-element';
 
 import { reducer } from './Reducer';
-import { view } from './Components';
+import { view } from './Views';
 import { registerLocalStorageOnUnloadDispatcher } from './LocalStorage';
 
 /** impure */
