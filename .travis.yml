@@ -30,6 +30,7 @@ script:
 
 - >
   for path in \
+    functional-js/todo-cards-app \
     functional-js/tips-calculator-app \
     functional-js/functional-starter-app \
     functional-js/functional-temperature-converter-app \

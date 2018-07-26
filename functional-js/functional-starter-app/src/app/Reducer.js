@@ -1,4 +1,4 @@
-import { serialize } from './LocalStorage';
+import { backupState } from './LocalStorage';
 import { mapOf, types } from './Actions';
 import * as R from 'ramda';
 
@@ -10,14 +10,12 @@ export function reducer(action, state) {
   switch (type) {
 
     case types.STORE_STATE: {
-      serialize(state);
-      return mapOf({ ...state });
+      backupState(state);
+      return state;
     }
 
     default: {
-      return mapOf({ ...state });
+      return state;
     }
   }
-
-  return state;
 }

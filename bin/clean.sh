@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
+  todo-cards-app \
   tips-calculator-app \
   functional-starter-app \
   functional-temperature-converter-app \
