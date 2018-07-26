@@ -29,22 +29,22 @@ function resultComponent(state) {
   });
 }
 
-function inputComponent(dispatch, value, onchange) {
+function inputComponent(dispatch, value, oninput) {
   return input({
     className: 'pv2 dib w-20',
     value,
-    onchange,
+    oninput,
   });
 }
 
 function temperatureChanged(name, dispatch, state) {
   const value = state[name];
-  const onChangeHandler = e => {
+  const onInputChangeHandler = e => {
     const { target } = e;
     dispatch(changeTemperatureAction(name, target.value));
   };
   return div({ className: 'pv2 di' }, [
-    inputComponent(dispatch, value, onChangeHandler),
+    inputComponent(dispatch, value, onInputChangeHandler),
     name,
   ]);
 }
