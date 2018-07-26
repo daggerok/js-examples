@@ -2,6 +2,8 @@ import { mapOf } from './Actions';
 
 export const initialState = mapOf({
   enableLocalStorage: true,
-  celsius: 0,
-  fahrenheit: 32,
+  billAmount: 0,
+  tip: 0,
+  tipAmount: 0,
+  totalAmount: 0,
 });

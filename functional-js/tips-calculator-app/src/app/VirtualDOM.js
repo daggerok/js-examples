@@ -16,8 +16,8 @@ export function render(initialState, rootNode) {
 
   registerLocalStorageOnUnloadDispatcher(dispatch);
 
-  function dispatch(type) {
-    const newState = reducer(type, state);
+  function dispatch(action) {
+    const newState = reducer(action, state);
     const newView = view(dispatch, newState);
     const patches = diff(currentView, newView);
 

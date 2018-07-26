@@ -13,7 +13,7 @@ function restoreState(json) {
   return json;
 }
 
-export const deserialize = () => !initialState.enableLocalStorage ? {} :
+export const deserialize = () =>
   JSON.parse(restoreState(localStorage.getItem(_key)));
 
 export const serialize = state => !initialState.enableLocalStorage ? {} :

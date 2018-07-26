@@ -1,14 +1,19 @@
 export const mapOf = obj => Object.freeze({ ...obj });
 
 export const types = mapOf({
-  CHANGE_TEMPERATURE: 'CHANGE_TEMPERATURE',
+  CHANGE_BILL_AMOUNT: 'CHANGE_BILL_AMOUNT',
+  CHANGE_TIP: 'CHANGE_TIP',
   STORE_STATE: 'STORE_STATE',
 });
 
-export const changeTemperatureAction = (name, value) => mapOf({
-  type: types.CHANGE_TEMPERATURE,
-  name,
-  value,
+export const changeBillAmountAction = billAmount => mapOf({
+  type: types.CHANGE_BILL_AMOUNT,
+  billAmount,
+});
+
+export const changeTipAction = tip => mapOf({
+  type: types.CHANGE_TIP,
+  tip,
 });
 
 export const storeLocalStorageStateAction = mapOf({

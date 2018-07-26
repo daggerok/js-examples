@@ -11,45 +11,47 @@ export function reducer(action, state) {
 
     case types.STORE_STATE: {
       serialize(state);
-      return mapOf({ ...state });
+      return state;
     }
 
-    case types.CHANGE_TEMPERATURE: {
-      const { name, value } = action;
-      const celsius = toCelsius(name, value);
-      const fahrenheit = toFahrenheit(name, value);
-      return mapOf({ ...state, celsius, fahrenheit });
+    case types.CHANGE_BILL_AMOUNT: {
+      const { billAmount: raw } = action;
+      const { tip } = state;
+      const billAmount = floatOf(raw);
+      const tipAmount = calculateTipAmount(billAmount, tip);
+      const totalAmount = billAmount + tipAmount;
+      return mapOf({ ...state, tipAmount, totalAmount, billAmount });
+    }
+
+    case types.CHANGE_TIP: {
+      const { tip: raw } = action;
+      const { billAmount } = state;
+      const tip = floatOf(raw);
+      const tipAmount = calculateTipAmount(billAmount, tip);
+      const totalAmount = billAmount + tipAmount;
+      return mapOf({ ...state, tipAmount, totalAmount, tip });
     }
 
     default: {
       console.log(action);
       console.log(state);
-      return mapOf({ ...state });
+      return state;
     }
   }
-
-  return state;
 }
 
-function toCelsius(name, value) {
-  return 'celsius' === name
-    ? value : fahrenheitToCelsius(value);
+function calculateTipAmount(billAmount, tip) {
+  return tip === 0.00 ? billAmount
+    : floatOf(billAmount / tip);
 }
 
-function toFahrenheit(name, value) {
-  return 'fahrenheit' === name
-    ? value : celsiusToFahrenheit(value);
-}
+const toFloat = R.pipe(
+  parseFloat,
+  R.defaultTo(0.00)
+);
 
-// T(°C) = (T(°F) - 32) / 1.8
-// T(°F) = T(°C) × 1.8 + 32
-
-function celsiusToFahrenheit(celsius) {
-  return round(celsius * 1.8 + 32);
-}
-
-function fahrenheitToCelsius(fahrenheit) {
-  return round((fahrenheit - 32) / 1.8);
+function floatOf(value) {
+  return round(toFloat(value));
 }
 
 function round(value) {

@@ -1,6 +1,6 @@
 {
   "homepage": "https://daggerok.github.io/js-examples/",
-  "name": "functional-temperature-converter-app",
+  "name": "tips-calculator-app",
   "version": "0.0.0",
   "description": "Functional JS Starter App",
   "main": "index.js",
