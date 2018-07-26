@@ -30,6 +30,7 @@ script:
 
 - >
   for path in \
+    functional-js/tips-calculator-app \
     functional-js/functional-starter-app \
     functional-js/functional-temperature-converter-app \
     functional-js/functional-calories-counter-app \

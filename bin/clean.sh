@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # functional-js
 for path in \
+  tips-calculator-app \
   functional-starter-app \
   functional-temperature-converter-app \
   functional-calories-counter-app \
