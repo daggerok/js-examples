@@ -41,8 +41,8 @@ export function reducer(action, state) {
 }
 
 function calculateTipAmount(billAmount, tip) {
-  return tip === 0.00 ? billAmount
-    : floatOf(billAmount / tip);
+  return floatOf(billAmount) === 0.00
+    ? 0.00 : floatOf(tip / 100 * billAmount);
 }
 
 const toFloat = R.pipe(
