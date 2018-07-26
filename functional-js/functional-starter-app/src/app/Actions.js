@@ -4,6 +4,6 @@ export const types = mapOf({
   STORE_STATE: 'STORE_STATE',
 });
 
-export const storeLocalStorageStateCommand = mapOf({
+export const storeLocalStorageStateAction = mapOf({
   type: types.STORE_STATE,
 });

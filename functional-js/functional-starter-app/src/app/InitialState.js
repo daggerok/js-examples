@@ -1,3 +1,5 @@
 import { mapOf } from './Actions';
 
-export const initialState = mapOf({});
+export const initialState = mapOf({
+  enableLocalStorage: true,
+});

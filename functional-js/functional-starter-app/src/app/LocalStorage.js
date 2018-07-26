@@ -1,6 +1,6 @@
 import { initialState } from './InitialState';
 import { version, name } from '../../package.json';
-import { storeLocalStorageStateCommand } from './Actions';
+import { storeLocalStorageStateAction } from './Actions';
 
 /** state management */
 
@@ -13,11 +13,11 @@ function restoreState(json) {
   return json;
 }
 
-export const deserialize = () =>
+export const deserialize = () => !initialState.enableLocalStorage ? {} :
   JSON.parse(restoreState(localStorage.getItem(_key)));
 
-export const serialize = state =>
+export const serialize = state => !initialState.enableLocalStorage ? {} :
   localStorage.setItem(_key, JSON.stringify(state));
 
-export const registerLocalStorageOnUnloadDispatcher = dispatch =>
-  window.addEventListener('unload', () => dispatch(storeLocalStorageStateCommand), false);
+export const registerLocalStorageOnUnloadDispatcher = dispatch => !initialState.enableLocalStorage ? {} :
+  window.addEventListener('unload', () => dispatch(storeLocalStorageStateAction), false);
