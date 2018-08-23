@@ -1,3 +1,4 @@
+.cache/
 .idea/
 vendors/
 node_modules/
