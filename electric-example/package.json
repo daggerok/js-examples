@@ -4,7 +4,7 @@
     "clean": "rimraf -rf ./dist",
     "prebuild": "npm run clean",
     "build": "electric build",
-    "predeploy": "npm i && npm-run-all predeploy:*",
+    "predeploy": "(yarn -i || npm i) && npm-run-all predeploy:*",
     "predeploy:clean": "npm run clean",
     "predeploy:build": "electric build --env gh-pages",
     "predeploy:fallbalck": "ncp ./dist/index.html ./dist/404.html",
