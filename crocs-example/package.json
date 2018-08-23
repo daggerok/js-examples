@@ -9,7 +9,7 @@
     "predeploy:nojekyll": "touch ./dist/.nojekyll",
     "deploy": "gh-pages -d ./dist -b gh-pages -m \"Github Pages https://daggerok.github.io/js-examples/ deployment $(date +%Y-%m-%d)\""
   },
-  "name": "babel-stage-0-app",
+  "name": "crocs-example-app",
   "version": "1.0.0",
   "main": "index.js",
   "keywords": [],

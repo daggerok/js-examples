@@ -1,0 +1,12 @@
+= electric | electric-cli
+
+.`electric-cli` package usage:
+[source,bash]
+----
+npm i -g electric-cli
+
+electric init
+# answer to questions...
+
+cd <project-dir>
+----

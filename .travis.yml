@@ -28,6 +28,13 @@ before_script:
 script:
 - export root=$(pwd)
 
+- cd ${root}/electric-example
+- yarn -i
+- yarn predeploy
+
+- cd ${root}/crocs-example
+- yarn predeploy
+
 - >
   for path in \
     functional-js/todo-cards-app \
