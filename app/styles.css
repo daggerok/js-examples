@@ -6,3 +6,11 @@ body {
 ul {
   list-style: none;
 }
+
+.user {
+  background-color: #fff;
+}
+
+#app {
+  margin: 0 auto;
+}
