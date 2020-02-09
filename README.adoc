@@ -2,12 +2,14 @@
 
 This repo is contains simple vanilla javascript playground test projects
 
-highlights:
+start new playground from link:./starter[starter]
+
+== a lot of outdated
 
 - link:./functional-js/[functional javascript]
 - link:./06-patterns/[some JS patterns]
 
-other repos:
+== other repos
 
 - link:https://github.com/daggerok/asciidoctor-to-html[Convert Asciidoc to HTML]
 - link:https://github.com/daggerok/js-module-loader[Inject ES6 classes using Bottle.js]
