@@ -1,15 +1,20 @@
+notifications:
+  email: false
+git:
+  depth: false
+  quiet: true
 env:
   global:
     - TERM=dumb
-language: generic
-#language: python
+#language: generic
+language: python
 python: 3.8
 #language: node_js
 #node_js: lts/*
 node_js: node
 addons:
   apt:
-    update: true
+    update: false
     packages:
       - curl
 install: true
