@@ -25,6 +25,8 @@ before_install:
     source ${HOME}/.local/daggerok/bash-functions/master/main.bash
     stop_any 5432 5672 27017 3000 8000 8080 80
   #
+  - npm -v
+  - node -v
 cache:
   npm: true
   pip: true
