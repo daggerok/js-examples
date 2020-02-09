@@ -1,5 +1,12 @@
+.idea
+!.idea/
+.idea/*
+!.idea/runConfigurations/
+*.iml
+*.ipr
+*.iws
+*.log*
 .cache/
-.idea/
 vendors/
 node_modules/
 bower_components/
@@ -7,3 +14,4 @@ bower_components/
 yarn.lock
 *-e
 jasmine-tests
+package-lock.json
