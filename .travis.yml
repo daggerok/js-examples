@@ -1,113 +1,213 @@
 env:
   global:
-  - TERM=dumb
-
-language: node_js
+    - TERM=dumb
+#language: node_js
+language: python
 node_js: lts/*
-
+python: 3.8
 addons:
   apt:
     update: true
     packages:
-    - python-pip
-    - curl
-
+      - curl
 install: true
-before_script:
-- sudo pip install httpie >/dev/null 2>&1
-#
-- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-- echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-- sudo apt update -y >/dev/null 2>&1 || true
-- sudo apt install --no-install-recommends -y yarn >/dev/null 2>&1
-#
-- yarn global add npm-check-updates
-- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 5432 5672 27017 3000 8000 8080 80
-
-script:
-- export root=$(pwd)
-
-- cd ${root}/electric-example
-- yarn -i
-- yarn predeploy
-
-- cd ${root}/crocs-example
-- yarn predeploy
-
-- >
-  for path in \
-    functional-js/todo-cards-app \
-    functional-js/tips-calculator-app \
-    functional-js/functional-starter-app \
-    functional-js/functional-temperature-converter-app \
-    functional-js/functional-calories-counter-app \
-    functional-js/virtual-dom-counter-app \
-    functional-js/pure-counter-app \
-    functional-js/counter-app \
-    functional-js/calorie-counter-app \
-    functional-js/ramda-functional-composition \
-    functional-js/ramda-currying \
-    functional-js/high-order-functions \
-    functional-js/starter \
-  ; do
-    cd $root/$path
-    npm i
-    npm run build
-    npm run predeploy
-    npm run postdeploy
-    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-  done;
-
-#- cd $root/using-fetch
-#- yarn -ii
-#- yarn start &
-#- wait_for 3000
-#- http :3000
-#- stop_any 3000
-#
-#- >
-#  for path in \
-#    materialize-bcrypt \
-#    material-design-lite \
-#    strategy-js \
-#    observer-js \
-#    using-fetch \
-#    flex \
-#    06-patterns/07-publish-subscriber \
-#    06-patterns/06-observer \
-#    06-patterns/05-constructor \
-#    06-patterns/04-decorator \
-#    06-patterns/03-facade \
-#    06-patterns/02-factory \
-#    06-patterns/01-strategy \
-#    05-mustache-jquery-cycle-bootswatch \
-#    04-vanilla-js-jquery \
-#    03-vanilla-js-jsonp \
-#    02-vanilla-js-remote-json \
-#    01-init-vanilla-js
-#  do
-#    export TARGET="$root/$path"
-#    cd $TARGET
-#
-#    yarn -i
-#    yarn predeploy
-#    if [ ".observer-js" != ".$path" ]; then yarn postdeploy; fi;
-#    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-#
-#    ncu
-#    ncu -u
-#    yarn -i
-#    yarn upgrade
-#    if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-#  done;
-
+before_install:
+  - python3 -m pip install --upgrade pip
+  - python3 -m pip install --upgrade httpie
+  #
+#  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+#  - export PATH="$HOME/.yarn/bin:$PATH"
+  - |
+    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash
+    fi
+    source ${HOME}/.local/daggerok/bash-functions/master/main.bash
+    stop_any 5432 5672 27017 3000 8000 8080 80
+  #
 cache:
+  npm: true
+  pip: true
+  yarn: true
+  packages: true
   directories:
-  - node_modules
-  - $HOME/.nvm
-  - $HOME/.npm
-  - $HOME/.npm-global
-  - $HOME/.npmrc
-  - $HOME/.yarn
-  - $HOME/.node-gyp
+    - ~/.local/daggerok
+    - node_modules
+    - ~/.n*
+    - ~/.yarn
+jobs:
+  include:
+
+    - stage: test
+      name: starter
+      before_script:
+        - cd $TRAVIS_BUILD_DIR/starter && npm i -E
+        - cd $TRAVIS_BUILD_DIR/starter && npm start
+        - cd $TRAVIS_BUILD_DIR/starter && npm run logs &
+        - wait_for 1234
+      script:
+        - http :1234
+      after_script:
+        - cd $TRAVIS_BUILD_DIR/starter && npm run predeploy
+
+#    - stage: test
+#      name: electric-example
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/electric-example && npm i -E
+#        - cd $TRAVIS_BUILD_DIR/electric-example && npm run predeploy
+#
+#    - stage: test
+#      name: crocs-example
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/crocs-example
+#        - yarn predeploy
+#
+#    - stage: test
+#      name: functional-js/todo-cards-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/todo-cards-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/tips-calculator-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/tips-calculator-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/functional-starter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/functional-starter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/functional-temperature-converter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/functional-temperature-converter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/functional-calories-counter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/functional-calories-counter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/virtual-dom-counter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/virtual-dom-counter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/pure-counter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/pure-counter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/counter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/counter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/calorie-counter-app
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/calorie-counter-app
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/ramda-functional-composition
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/ramda-functional-composition
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/ramda-currying
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/ramda-currying
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/high-order-functions
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/high-order-functions
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+#
+#    - stage: test
+#      name: functional-js/starter
+#      script:
+#        - cd $TRAVIS_BUILD_DIR/functional-js/starter
+#        - npm i
+#        - npm run build
+#        - npm run predeploy
+#        - npm run postdeploy
+#        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
+    - stage: deploy
+      env:
+        - SUB_PROJECT=starter
+        - secure: "JI5NQyx6Dnf7E/Db0arHRGF9ihrq9jdMOiIKgu3lTr3D9CNAqnkgDV+P2UVhd8D/E9rk33RCQW4Jffmqj3JcCo3cWRO9k0rZLKF+zRzBEKLrKEubEs6sxG8bAWxCCIp3x2OU4Z0Jl1s9tn3z7MZEEBzju5/JwMCHAgWwuonPkqBSzLCrPIcLmuxK+5Bptj/P6Z0kHiufGqGBsidMFJTGZTYMe4Vo+uaZ3aFlimqA6INaR1g8DaU8NgubAEVRM63B6p8hzMCu6WpUfz5xwDwfVWLbGlgTUsft3eBvgWZvJ5M3izIJVhcH+IYwyA0HFxLnFCoFiPM4doB+MVbZ1h8WU5Gj/2jgnTLUj7ojHxgpoTRvYycNkyOIbqmmLTrV9PKLsN7zcUwgtKnXJmai6aEgfaP8YD4Z4RPvbxljhM0PLE+aSektfLk4+jqdcsBfn+gcpaM/jcOsbS2VS0hvRz1F20Z9jnpp7zd5h9jZjXfw4cnXyaee7HwNa70F4Y+Iy4v11BE+6f1wwaZSOd282c/nvK6glkUo+68vugYROwhKsM5eLKlbDC4uXEyHYn5Sqym9Px9h6EJjkKq384Ra8C6UYYA7R/fikuvvxG7PlUx6dn6YasWu+IxHh5XHmA8oX21dT4pBBy/I5DIBDdvVXkVCI0hBu5mrQDxDvlJwZiBQS6I="
+      name: gh-pages
+      script: skip
+      before_deploy:
+        - set -e
+        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm i -E
+        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm run predeploy
+      deploy: &pages
+        provider: pages
+        skip-cleanup: true
+        keep-history: true
+        target_branch: gh-pages
+        github-token: "$GITHUB_TOKEN"
+        local-dir: $TRAVIS_BUILD_DIR/$SUB_PROJECT/dist
+        on:
+          branch: master
+          condition: "$TRAVIS_PULL_REQUEST = false"
