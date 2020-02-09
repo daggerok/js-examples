@@ -60,6 +60,6 @@
   "homepage": "https://daggerok.github.io/js-examples",
   "dependencies": {
     "bcryptjs": "2.4.3",
-    "materialize-css": "1.0.0-rc.1"
+    "materialize-css": "1.0.0"
   }
 }
