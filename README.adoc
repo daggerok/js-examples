@@ -1,4 +1,4 @@
-= JS Examples image:https://travis-ci.org/daggerok/js-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/js-examples"]
+= JS Examples image:https://travis-ci.org/daggerok/js-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/js-examples"] image:https://github.com/daggerok/js-examples/workflows/CI/badge.svg[CI, link=https://github.com/daggerok/js-examples/actions]
 
 This repo is contains simple vanilla javascript playground test projects
 
