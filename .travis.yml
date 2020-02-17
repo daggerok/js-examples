@@ -3,14 +3,8 @@ notifications:
 git:
   depth: false
   quiet: true
-env:
-  global:
-    - TERM=dumb
-#language: generic
 language: python
 python: 3.8
-#language: node_js
-#node_js: lts/*
 node_js: node
 addons:
   apt:
@@ -22,8 +16,6 @@ before_install:
   - python3 -m pip install --upgrade pip
   - python3 -m pip install --upgrade httpie
   #
-#  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
-#  - export PATH="$HOME/.yarn/bin:$PATH"
   - |
     if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
       mkdir -p ${HOME}/.local/daggerok/bash-functions/master
@@ -59,6 +51,28 @@ jobs:
       after_script:
         - cd $TRAVIS_BUILD_DIR/starter && npm run predeploy
 
+    - stage: deploy
+      env:
+        - SUB_PROJECT=starter
+        - secure: "JI5NQyx6Dnf7E/Db0arHRGF9ihrq9jdMOiIKgu3lTr3D9CNAqnkgDV+P2UVhd8D/E9rk33RCQW4Jffmqj3JcCo3cWRO9k0rZLKF+zRzBEKLrKEubEs6sxG8bAWxCCIp3x2OU4Z0Jl1s9tn3z7MZEEBzju5/JwMCHAgWwuonPkqBSzLCrPIcLmuxK+5Bptj/P6Z0kHiufGqGBsidMFJTGZTYMe4Vo+uaZ3aFlimqA6INaR1g8DaU8NgubAEVRM63B6p8hzMCu6WpUfz5xwDwfVWLbGlgTUsft3eBvgWZvJ5M3izIJVhcH+IYwyA0HFxLnFCoFiPM4doB+MVbZ1h8WU5Gj/2jgnTLUj7ojHxgpoTRvYycNkyOIbqmmLTrV9PKLsN7zcUwgtKnXJmai6aEgfaP8YD4Z4RPvbxljhM0PLE+aSektfLk4+jqdcsBfn+gcpaM/jcOsbS2VS0hvRz1F20Z9jnpp7zd5h9jZjXfw4cnXyaee7HwNa70F4Y+Iy4v11BE+6f1wwaZSOd282c/nvK6glkUo+68vugYROwhKsM5eLKlbDC4uXEyHYn5Sqym9Px9h6EJjkKq384Ra8C6UYYA7R/fikuvvxG7PlUx6dn6YasWu+IxHh5XHmA8oX21dT4pBBy/I5DIBDdvVXkVCI0hBu5mrQDxDvlJwZiBQS6I="
+      name: gh-pages
+      script: skip
+      before_deploy:
+        - set -e
+        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm i -E
+        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm run predeploy
+      deploy: &pages
+        provider: pages
+        skip-cleanup: true
+        keep-history: true
+        target_branch: gh-pages
+        github-token: "$GITHUB_TOKEN"
+        local-dir: $TRAVIS_BUILD_DIR/$SUB_PROJECT/dist
+        on:
+          branch: master
+          condition: "$TRAVIS_PULL_REQUEST = false"
+
+## old not worked (yeah, we all love f*ing NodeJS!)
 #    - stage: test
 #      name: electric-example
 #      script:
@@ -200,23 +214,3 @@ jobs:
 #        - npm run predeploy
 #        - npm run postdeploy
 #        - if [ -f npm-debug.log ]; then cat npm-debug.log; fi
-    - stage: deploy
-      env:
-        - SUB_PROJECT=starter
-        - secure: "JI5NQyx6Dnf7E/Db0arHRGF9ihrq9jdMOiIKgu3lTr3D9CNAqnkgDV+P2UVhd8D/E9rk33RCQW4Jffmqj3JcCo3cWRO9k0rZLKF+zRzBEKLrKEubEs6sxG8bAWxCCIp3x2OU4Z0Jl1s9tn3z7MZEEBzju5/JwMCHAgWwuonPkqBSzLCrPIcLmuxK+5Bptj/P6Z0kHiufGqGBsidMFJTGZTYMe4Vo+uaZ3aFlimqA6INaR1g8DaU8NgubAEVRM63B6p8hzMCu6WpUfz5xwDwfVWLbGlgTUsft3eBvgWZvJ5M3izIJVhcH+IYwyA0HFxLnFCoFiPM4doB+MVbZ1h8WU5Gj/2jgnTLUj7ojHxgpoTRvYycNkyOIbqmmLTrV9PKLsN7zcUwgtKnXJmai6aEgfaP8YD4Z4RPvbxljhM0PLE+aSektfLk4+jqdcsBfn+gcpaM/jcOsbS2VS0hvRz1F20Z9jnpp7zd5h9jZjXfw4cnXyaee7HwNa70F4Y+Iy4v11BE+6f1wwaZSOd282c/nvK6glkUo+68vugYROwhKsM5eLKlbDC4uXEyHYn5Sqym9Px9h6EJjkKq384Ra8C6UYYA7R/fikuvvxG7PlUx6dn6YasWu+IxHh5XHmA8oX21dT4pBBy/I5DIBDdvVXkVCI0hBu5mrQDxDvlJwZiBQS6I="
-      name: gh-pages
-      script: skip
-      before_deploy:
-        - set -e
-        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm i -E
-        - cd $TRAVIS_BUILD_DIR/$SUB_PROJECT && npm run predeploy
-      deploy: &pages
-        provider: pages
-        skip-cleanup: true
-        keep-history: true
-        target_branch: gh-pages
-        github-token: "$GITHUB_TOKEN"
-        local-dir: $TRAVIS_BUILD_DIR/$SUB_PROJECT/dist
-        on:
-          branch: master
-          condition: "$TRAVIS_PULL_REQUEST = false"
