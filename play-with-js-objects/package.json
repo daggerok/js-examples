@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "ava",
+    "dev": "npm t -- --watch"
+  },
+  "devDependencies": {
+    "ava": "3.3.0",
+    "esm": "3.2.25"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
+  }
+}

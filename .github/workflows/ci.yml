@@ -1,6 +1,29 @@
 name: CI
 on: [push]
 jobs:
+  play-with-js-objects:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        nodejs-version: [12]
+        python-version: [3.8]
+    runs-on: ${{ matrix.os }}
+    name: play-with-js-objects
+    steps:
+      - name: evironment (${{ matrix.os }} OS, python ${{ matrix.python-version }}, NodeJS ${{ matrix.nodejs-version }}) info
+        run: echo ${{ matrix.os }} OS, python ${{ matrix.python-version }}, NodeJS ${{ matrix.nodejs-version }}
+      - name: Set up NodeJS ${{ matrix.nodejs-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.nodejs-version }}
+      - name: Clone git project
+        uses: actions/checkout@v2
+      - name: Install, run, wait and test
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/play-with-js-objects && npm i
+          cd $GITHUB_WORKSPACE/play-with-js-objects && npm t
+
   ava-template:
     strategy:
       matrix:
